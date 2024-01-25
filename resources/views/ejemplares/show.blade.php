@@ -17,13 +17,9 @@
         </div>
 
         <div class="mt-4">
-            @if ($ejemplar->prestamos()->where('devolucion', null)->count() > 0)
+            @if ($prestado)
                 <p>El ejemplar SÍ está prestado</p>
-                @php
-                    $fecha = $ejemplar->prestamos()->where('devolucion', null)->first()->created_at;
-                    $dif = $fecha->diffInDays(now());
-                @endphp
-                @if ($dif > 30)
+                @if ($diferencia > 30)
                     <p>El préstamo está vencido</p>
                 @else
                     <p>El préstamo NO está vencido</p>
