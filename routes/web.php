@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\LibroController;
 use App\Http\Controllers\ProfileController;
+use App\Models\Ejemplar;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,5 +31,11 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::resource('libros', LibroController::class);
+
+Route::get('/ejemplares/{ejemplar}', function (Ejemplar $ejemplar) {
+    return view('ejemplares.show', [
+        'ejemplar' => $ejemplar,
+    ]);
+});
 
 require __DIR__.'/auth.php';
