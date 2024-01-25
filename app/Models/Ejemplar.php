@@ -20,4 +20,9 @@ class Ejemplar extends Model
     {
         return $this->hasMany(Prestamo::class);
     }
+
+    public function prestamosVigentes()
+    {
+        return $this->prestamos()->where('devolucion', null);
+    }
 }

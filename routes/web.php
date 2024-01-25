@@ -33,9 +33,7 @@ Route::middleware('auth')->group(function () {
 Route::resource('libros', LibroController::class);
 
 Route::get('/ejemplares/{ejemplar}', function (Ejemplar $ejemplar) {
-    $prestamo = $ejemplar->prestamos()
-        ->where('devolucion', null)
-        ->first();
+    $prestamo = $ejemplar->prestamosVigentes()->first();
     if ($prestamo != null) {
         $diferencia = $prestamo->created_at->diffInDays(now());
     } else {

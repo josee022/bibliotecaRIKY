@@ -45,7 +45,7 @@
                             {{ truncar($ejemplar->codigo) }}
                         </td>
                         <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            @if ($ejemplar->prestamos()->where('devolucion', null)->count() > 0)
+                            @if ($ejemplar->prestamosVigentes()->count() > 0)
                                 Sí
                             @else
                                 No
