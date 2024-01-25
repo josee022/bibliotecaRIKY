@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Libro;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class LibroController extends Controller
 {
@@ -12,7 +13,9 @@ class LibroController extends Controller
      */
     public function index()
     {
-        //
+        return view('libros.index', [
+            'libros' => Libro::all(),
+        ]);
     }
 
     /**
@@ -20,7 +23,7 @@ class LibroController extends Controller
      */
     public function create()
     {
-        //
+        return view('libros.create');
     }
 
     /**
@@ -28,7 +31,17 @@ class LibroController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'titulo' => 'required|max:255',
+            'autor' => 'required|max:255',
+        ]);
+
+        $libro = new Libro();
+        $libro->titulo = $validated['titulo'];
+        $libro->autor = $validated['autor'];
+        $libro->save();
+        session()->flash('success', 'El libro se ha creado correctamente.');
+        return redirect()->route('libros.index');
     }
 
     /**
@@ -36,7 +49,9 @@ class LibroController extends Controller
      */
     public function show(Libro $libro)
     {
-        //
+        return view('libros.show', [
+            'libro' => $libro,
+        ]);
     }
 
     /**
@@ -44,7 +59,9 @@ class LibroController extends Controller
      */
     public function edit(Libro $libro)
     {
-        //
+        return view('libros.edit', [
+            'libro' => $libro,
+        ]);
     }
 
     /**
@@ -52,7 +69,16 @@ class LibroController extends Controller
      */
     public function update(Request $request, Libro $libro)
     {
-        //
+        $validated = $request->validate([
+            'titulo' => 'required|max:255',
+            'autor' => 'required|max:255',
+        ]);
+
+        $libro->titulo = $validated['titulo'];
+        $libro->autor = $validated['autor'];
+        $libro->save();
+        session()->flash('success', 'El libro se ha editado correctamente.');
+        return redirect()->route('libros.index');
     }
 
     /**
@@ -60,6 +86,7 @@ class LibroController extends Controller
      */
     public function destroy(Libro $libro)
     {
-        //
+        $libro->delete();
+        return redirect()->route('libros.index');
     }
 }
